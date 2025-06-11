@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Демографический прогноз: Аналитический дашборд</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header class="dashboard-header">
+            <h1>Демографический прогноз: Аналитический дашборд</h1>
+            <p class="dashboard-subtitle">
+                Анализ демографических трендов и прогнозирование численности населения на основе данных Росстата и ООН
+            </p>
+        </header>
+
+        <nav class="tab-navigation">
+            <button class="tab-btn active" data-tab="lipetsk">Липецкая область</button>
+            <button class="tab-btn" data-tab="comparison">Сравнение прогнозов</button>
+            <button class="tab-btn" data-tab="russia-un">Россия vs ООН</button>
+            <button class="tab-btn" data-tab="demographics">Демографические показатели</button>
+            <button class="tab-btn" data-tab="conclusions">Ключевые выводы</button>
+        </nav>
+
+        <main class="dashboard-content">
+            <!-- Вкладка 1: Липецкая область -->
+            <section id="lipetsk" class="tab-content active">
+                <h2>Липецкая область: Демографический прогноз</h2>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>Общая численность 2024</h3>
+                        <div class="stat-value">1,075,114</div>
+                        <div class="stat-label">человек</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Прогноз на 2034</h3>
+                        <div class="stat-value">963,007</div>
+                        <div class="stat-label">человек</div>
+                    </div>
+                    <div class="stat-card negative">
+                        <h3>Изменение за 10 лет</h3>
+                        <div class="stat-value">-10.4%</div>
+                        <div class="stat-label">убыль населения</div>
+                    </div>
+                </div>
+
+                <div class="chart-controls">
+                    <button class="btn btn--secondary year-toggle active" data-year="2024">2024 год</button>
+                    <button class="btn btn--secondary year-toggle" data-year="2034">2034 год (прогноз)</button>
+                    <button class="btn btn--primary" id="compareYears">Сравнить годы</button>
+                </div>
+
+                <div class="chart-container">
+                    <canvas id="lipetskPyramid"></canvas>
+                </div>
+
+                <div class="dependency-ratios">
+                    <h3>Коэффициенты демографической нагрузки</h3>
+                    <div class="ratio-grid">
+                        <div class="ratio-card">
+                            <h4>2024 год</h4>
+                            <div class="ratio-item">
+                                <span>Детская нагрузка:</span>
+                                <span>23.6</span>
+                            </div>
+                            <div class="ratio-item">
+                                <span>Пожилая нагрузка:</span>
+                                <span>23.2</span>
+                            </div>
+                            <div class="ratio-item total">
+                                <span>Общая нагрузка:</span>
+                                <span>46.8</span>
+                            </div>
+                        </div>
+                        <div class="ratio-card">
+                            <h4>2034 год</h4>
+                            <div class="ratio-item">
+                                <span>Детская нагрузка:</span>
+                                <span>17.2</span>
+                            </div>
+                            <div class="ratio-item">
+                                <span>Пожилая нагрузка:</span>
+                                <span>26.8</span>
+                            </div>
+                            <div class="ratio-item total">
+                                <span>Общая нагрузка:</span>
+                                <span>43.9</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Вкладка 2: Сравнение прогнозов -->
+            <section id="comparison" class="tab-content">
+                <h2>Сравнение прогнозов: Наш анализ vs Росстат</h2>
+                <p class="section-description">
+                    Сопоставление нашего демографического прогноза с официальным прогнозом Росстата для Липецкой области на 2034 год
+                </p>
+
+                <div class="comparison-charts">
+                    <div class="chart-half">
+                        <h3>Наш прогноз</h3>
+                        <canvas id="ourForecast"></canvas>
+                    </div>
+                    <div class="chart-half">
+                        <h3>Прогноз Росстата</h3>
+                        <canvas id="rosstatForecast"></canvas>
+                    </div>
+                </div>
+
+                <div class="analysis-text">
+                    <h3>Анализ различий</h3>
+                    <div class="analysis-grid">
+                        <div class="analysis-card">
+                            <h4>Молодые возрастные группы (0-30)</h4>
+                            <p>Наш прогноз показывает более консервативные оценки численности молодого населения, что связано с учетом продолжающегося снижения рождаемости.</p>
+                        </div>
+                        <div class="analysis-card">
+                            <h4>Трудоспособное население (30-60)</h4>
+                            <p>Близкие значения с Росстатом, что подтверждает стабильность этой группы в среднесрочной перспективе.</p>
+                        </div>
+                        <div class="analysis-card">
+                            <h4>Пожилое население (60+)</h4>
+                            <p>Росстат прогнозирует более значительный рост численности пожилого населения, особенно в группе 80+.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Вкладка 3: Россия vs ООН -->
+            <section id="russia-un" class="tab-content">
+                <h2>Прогноз для России: Наш анализ vs ООН</h2>
+                <p class="section-description">
+                    Сравнение демографических прогнозов для России на 2034 год: наш расчет против прогноза ООН
+                </p>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>Наш прогноз</h3>
+                        <div class="stat-value">144.5</div>
+                        <div class="stat-label">млн человек</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Прогноз ООН</h3>
+                        <div class="stat-value">140.3</div>
+                        <div class="stat-label">млн человек</div>
+                    </div>
+                    <div class="stat-card positive">
+                        <h3>Разница</h3>
+                        <div class="stat-value">+3.0%</div>
+                        <div class="stat-label">наш прогноз выше</div>
+                    </div>
+                </div>
+
+                <div class="comparison-charts">
+                    <div class="chart-half">
+                        <h3>Наш прогноз для России</h3>
+                        <canvas id="russiaOur"></canvas>
+                    </div>
+                    <div class="chart-half">
+                        <h3>Прогноз ООН</h3>
+                        <canvas id="russiaUN"></canvas>
+                    </div>
+                </div>
+
+                <div class="methodology-comparison">
+                    <h3>Различия в методологии</h3>
+                    <div class="method-grid">
+                        <div class="method-card">
+                            <h4>Наш подход</h4>
+                            <ul>
+                                <li>Учет региональных особенностей</li>
+                                <li>Анализ миграционных потоков</li>
+                                <li>Корректировка на текущие тренды</li>
+                            </ul>
+                        </div>
+                        <div class="method-card">
+                            <h4>Методология ООН</h4>
+                            <ul>
+                                <li>Стандартизированные модели</li>
+                                <li>Глобальные демографические тренды</li>
+                                <li>Консервативные оценки миграции</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Вкладка 4: Демографические показатели -->
+            <section id="demographics" class="tab-content">
+                <h2>Демографические показатели</h2>
+                
+                <div class="charts-grid">
+                    <div class="chart-section">
+                        <h3>Коэффициенты рождаемости по возрастам</h3>
+                        <canvas id="fertilityChart"></canvas>
+                        <div class="tfr-indicator">
+                            <span class="tfr-label">Суммарный коэффициент рождаемости (TFR):</span>
+                            <span class="tfr-value">1.21</span>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-section">
+                        <h3>Таблица смертности (nLx)</h3>
+                        <canvas id="mortalityChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="indicators-analysis">
+                    <h3>Анализ показателей</h3>
+                    <div class="indicator-cards">
+                        <div class="indicator-card">
+                            <h4>Рождаемость</h4>
+                            <p>TFR = 1.21 значительно ниже уровня простого воспроизводства (2.1), что указывает на продолжение демографического кризиса.</p>
+                        </div>
+                        <div class="indicator-card">
+                            <h4>Смертность</h4>
+                            <p>Значительные гендерные различия в показателях смертности, особенно в трудоспособных возрастах.</p>
+                        </div>
+                        <div class="indicator-card">
+                            <h4>Возрастная структура</h4>
+                            <p>Старение населения продолжается, увеличивается доля пожилых возрастов.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Вкладка 5: Ключевые выводы -->
+            <section id="conclusions" class="tab-content">
+                <h2>Ключевые выводы исследования</h2>
+                
+                <div class="conclusions-content">
+                    <div class="conclusion-section">
+                        <h3>Основные тренды</h3>
+                        <ul class="conclusion-list">
+                            <li>Липецкая область столкнется с убылью населения на 10.4% к 2034 году</li>
+                            <li>Снижение детской демографической нагрузки с 23.6 до 17.2</li>
+                            <li>Рост пожилой нагрузки с 23.2 до 26.8</li>
+                            <li>Суммарный коэффициент рождаемости (1.21) критически низкий</li>
+                        </ul>
+                    </div>
+
+                    <div class="conclusion-section">
+                        <h3>Сравнение методологий</h3>
+                        <p>Наш прогноз для России на 3% выше прогноза ООН, что связано с:</p>
+                        <ul class="conclusion-list">
+                            <li>Более оптимистичными оценками миграционного прироста</li>
+                            <li>Учетом региональных особенностей рождаемости</li>
+                            <li>Корректировкой на текущие социально-экономические факторы</li>
+                        </ul>
+                    </div>
+
+                    <div class="conclusion-section theoretical">
+                        <h3>Теоретический анализ: Россия и Мозамбик через 200 лет</h3>
+                        <div class="theoretical-comparison">
+                            <div class="country-projection">
+                                <h4>Россия в 2224 году</h4>
+                                <p>При сохранении текущих трендов:</p>
+                                <ul>
+                                    <li>Критическое старение населения</li>
+                                    <li>Возможное сокращение до 80-100 млн человек</li>
+                                    <li>Высокая зависимость от миграции</li>
+                                    <li>Необходимость кардинальных мер поддержки рождаемости</li>
+                                </ul>
+                            </div>
+                            <div class="country-projection">
+                                <h4>Мозамбик в 2224 году</h4>
+                                <p>При демографическом переходе:</p>
+                                <ul>
+                                    <li>Завершение демографического перехода</li>
+                                    <li>Стабилизация рождаемости</li>
+                                    <li>Возможный рост до 200+ млн человек</li>
+                                    <li>Молодое население как конкурентное преимущество</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="conclusion-section recommendations">
+                        <h3>Рекомендации</h3>
+                        <div class="recommendation-cards">
+                            <div class="recommendation-card">
+                                <h4>Краткосрочные меры</h4>
+                                <ul>
+                                    <li>Усиление семейной политики</li>
+                                    <li>Поддержка молодых семей</li>
+                                    <li>Развитие инфраструктуры детства</li>
+                                </ul>
+                            </div>
+                            <div class="recommendation-card">
+                                <h4>Долгосрочные стратегии</h4>
+                                <ul>
+                                    <li>Привлечение мигрантов</li>
+                                    <li>Инвестиции в человеческий капитал</li>
+                                    <li>Адаптация экономики к старению</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
